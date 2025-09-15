@@ -21,11 +21,10 @@ export const Navbar = () => {
 
         {/* Right side nav */}
         <div className="flex items-center space-x-8">
-          {["About Us", "Let’s Connect"].map((item, index) => (
-            <motion.a
+          {["About Us", "Let’s Connect", "Login"].map((item, index) => (
+            <motion.button
               key={index}
-              href="#"
-              className="relative text-lg font-medium text-gray-300 hover:text-white transition group"
+              className="relative group text-lg font-medium text-gray-300 hover:text-white transition group"
               whileHover={{ scale: 1.08, y: -2 }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 300 }}
@@ -33,7 +32,7 @@ export const Navbar = () => {
               {item}
               {/* underline gradient effect */}
               <span className="absolute left-0 bottom-[-6px] w-0 h-[2px] bg-gradient-to-r from-indigo-400 to-pink-400 transition-all duration-300 group-hover:w-full"></span>
-            </motion.a>
+            </motion.button>
           ))}
         </div>
       </div>

@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 type HistoryContextType = {
-  prevPath: string | null;
   goBack: () => void;
 };
 
@@ -12,26 +11,32 @@ export const HistoryProvider = ({ children }: { children: React.ReactNode }) => 
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [prevPath, setPrevPath] = useState<string | null>(null);
-  const [currentPath, setCurrentPath] = useState(location.pathname);
+  const [, setHistoryStack] = useState<string[]>([location.pathname]);
 
   useEffect(() => {
-    if (location.pathname !== currentPath) {
-      setPrevPath(currentPath);
-      setCurrentPath(location.pathname);
+  setHistoryStack((prev) => {
+    if (prev[prev.length - 1] !== location.pathname) {
+      return [...prev, location.pathname];
     }
-  }, [location.pathname, currentPath]);
+    return prev;
+  });
+}, [location.pathname]);
 
   const goBack = () => {
-    if (prevPath) {
-      navigate(prevPath);
+  setHistoryStack((prev) => {
+    if (prev.length > 1) {
+      const newStack = prev.slice(0, -1); // pop
+      navigate(newStack[newStack.length - 1]);
+      return newStack;
     } else {
-      navigate("/"); // fallback to home
+      navigate("/"); // fallback
+      return prev;
     }
-  };
+  });
+};
 
   return (
-    <HistoryContext.Provider value={{ prevPath, goBack }}>
+    <HistoryContext.Provider value={{ goBack }}>
       {children}
     </HistoryContext.Provider>
   );

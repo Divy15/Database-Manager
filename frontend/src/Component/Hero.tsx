@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export const Hero = () => {
   return (
-    <div className="relative flex h-[560px] items-center justify-center bg-black overflow-hidden">
+    <div className="relative flex h-[660px] items-center justify-center bg-black overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-0 left-1/2 w-[700px] h-[700px] bg-purple-600 opacity-20 blur-3xl -translate-x-1/2"></div>
       <div className="absolute bottom-0 right-1/3 w-[500px] h-[500px] bg-pink-500 opacity-10 blur-3xl"></div>

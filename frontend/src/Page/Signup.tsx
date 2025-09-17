@@ -1,4 +1,16 @@
+import { useHistoryNav } from "../Context/HistoryContext";
+import { useNavigate } from "react-router-dom";
+
 export const Signup = () => {
+
+  const navigate = useNavigate();
+
+   const { goBack } = useHistoryNav();
+
+   const handleLoginPageClick = () => {
+    navigate('/login');
+   };
+   
   return (
     <div className="h-screen flex items-center justify-center bg-black">
       {/* Card */}
@@ -75,6 +87,7 @@ export const Signup = () => {
             <button
               type="button"
               className="px-5 py-2 rounded-xl border border-gray-700 text-gray-300 hover:bg-gray-800 transition"
+              onClick={goBack}
             >
               Cancel
             </button>
@@ -90,7 +103,8 @@ export const Signup = () => {
         {/* Extra */}
         <p className="text-center text-gray-400 text-sm mt-6">
           Already have an account?{" "}
-          <a href="#" className="text-pink-400 font-semibold hover:underline">
+          <a href="#" className="text-pink-400 font-semibold hover:underline"
+          onClick={() => handleLoginPageClick()}>
             Login
           </a>
         </p>

@@ -5,6 +5,8 @@ import { Navbar } from "./Component/Navbar"
 import { Signup } from "./Page/Signup"
 import { HistoryProvider } from "./Context/HistoryContext";
 import About from "./Component/About"
+import { Contact } from "./Component/Contact"
+import Footer from "./Component/Footer"
 
 function App() {
 
@@ -19,8 +21,10 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/about" element={<About />}/>
+            <Route path="/contact" element={<Contact />} />
           </Routes>
           </main>
+        <Footer />
         </HistoryProvider>
       </BrowserRouter>
     </>

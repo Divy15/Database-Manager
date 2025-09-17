@@ -18,7 +18,7 @@ export default function About() {
   return (
     <>
       {/* Hero Section */}
-      <div className="bg-black py-20 text-center text-white relative overflow-hidden">
+      <div className="bg-black text-center text-white relative overflow-hidden pt-30 pb-30">
         {/* glowing accent */}
         <div className="absolute top-0 left-1/2 w-[600px] h-[600px] bg-purple-600 opacity-20 blur-3xl -translate-x-1/2"></div>
 

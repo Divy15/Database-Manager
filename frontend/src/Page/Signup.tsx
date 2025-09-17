@@ -1,6 +1,6 @@
 export const Signup = () => {
   return (
-    <div className="h-screen flex items-center justify-center bg-black pt-20">
+    <div className="h-screen flex items-center justify-center bg-black">
       {/* Card */}
       <div className="bg-gray-900/90 backdrop-blur-xl w-[420px] rounded-2xl shadow-2xl p-8 border border-gray-800">
         {/* Title */}

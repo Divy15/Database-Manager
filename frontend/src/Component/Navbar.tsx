@@ -1,9 +1,22 @@
 import logo from "../assets/Generated Image September 13, 2025 - 11_07AM.png";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleNavLink = (item : string) => {
+    if(item === 'About Us'){
+      navigate('/about')
+    }else if(item === "Let’s Connect"){
+      navigate('/contact')
+    }else{
+      navigate('/login')
+    }
+  };
+
   return (
-    <div className="fixed top-0 left-0 w-full bg-black/90 backdrop-blur-md border-b border-gray-800 z-50">
+    <div className="fixed z-10 top-0 left-0 w-full bg-black/90 backdrop-blur-md border-b border-gray-800">
       <div className="flex items-center justify-between px-8 h-[80px]">
         {/* Left side (logo + title) */}
         <div className="flex items-center gap-3">
@@ -27,6 +40,7 @@ export const Navbar = () => {
               className="relative group text-lg font-medium text-gray-300 hover:text-white transition group"
               whileHover={{ scale: 1.08, y: -2 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => handleNavLink(item)}
               transition={{ type: "spring", stiffness: 300 }}
             >
               {item}

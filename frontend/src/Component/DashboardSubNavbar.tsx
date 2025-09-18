@@ -1,0 +1,166 @@
+import { useState } from "react";
+import { motion } from "framer-motion";
+
+export const DashboardSubNavbar = () => {
+  const [viewAfterSelectionDatabase, setViewAfterSelectionDatabase] = useState(false);
+  const [database, setDatabase] = useState("");
+  const [func, setFunc] = useState("");
+  const [table, setTable] = useState("");
+  const [trigger, setTrigger] = useState("");
+  const [type, setType] = useState("");
+
+  const resetAll = () => {
+    setDatabase("");
+    setFunc("");
+    setTable("");
+    setTrigger("");
+    setType("");
+    setViewAfterSelectionDatabase(false);
+  };
+
+  const databaseList = ["SCI_UPDATE_2025", "SCC_UPDATE_2025", "GEN_UPDATE_2025"];
+  const functionList = ["FUNCTION_ABC_1", "FUNCTION_CDE_2"];
+  const tableList = ["Table_ABC_1", "TABLE_CDE_2"];
+  const triggerList = ["Trigger_UPDATE_ABC_2", "Trigger_UPDATE_CDE_3"];
+  const typeList = ["Type_UPDATE_2025", "Type_Update_2026"];
+
+  const handleViewOfAfterSelectionDatabaseValue = (e: any) => {
+    if (e.target.value) {
+      setDatabase(e.target.value);
+      return setViewAfterSelectionDatabase(true);
+    }
+    return setViewAfterSelectionDatabase(false);
+  };
+
+  const handleSubMenuValue = (value: string, subMenuType: string) => {
+    if (subMenuType === "Function") {
+      setFunc(value);
+      setTable("");
+      setTrigger("");
+      setType("");
+    } else if (subMenuType === "Table") {
+      setTable(value);
+      setFunc("");
+      setTrigger("");
+      setType("");
+    } else if (subMenuType === "Trigger") {
+      setTrigger(value);
+      setFunc("");
+      setTable("");
+      setType("");
+    } else {
+      setType(value);
+      setFunc("");
+      setTable("");
+      setTrigger("");
+    }
+  };
+
+  return (
+    <div className="w-full grid grid-cols-6 gap-4 items-center px-[45px]">
+      {/* Database */}
+      <div className="flex flex-col">
+        <label className="text-sm font-semibold text-blue-600 mb-1">Database</label>
+        <select
+          value={database}
+          className="p-2 rounded-lg bg-blue-600 text-white shadow hover:bg-blue-700 transition w-full"
+          onChange={(e) => handleViewOfAfterSelectionDatabaseValue(e)}
+        >
+          <option value="">Select Database</option>
+          {databaseList.map((item, index) => (
+            <option value={item} key={index}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Function */}
+      <div className="flex flex-col">
+        <label className="text-sm font-semibold text-purple-600 mb-1">Function</label>
+        <select
+          value={func}
+          disabled={!viewAfterSelectionDatabase}
+          className="p-2 rounded-lg bg-purple-600 text-white shadow hover:bg-purple-700 transition w-full disabled:opacity-50"
+          onChange={(e) => handleSubMenuValue(e.target.value, "Function")}
+        >
+          <option value="">Select Function</option>
+          {functionList.map((item, index) => (
+            <option value={item} key={index}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Table */}
+      <div className="flex flex-col">
+        <label className="text-sm font-semibold text-green-600 mb-1">Table</label>
+        <select
+          value={table}
+          disabled={!viewAfterSelectionDatabase}
+          className="p-2 rounded-lg bg-green-600 text-white shadow hover:bg-green-700 transition w-full disabled:opacity-50"
+          onChange={(e) => handleSubMenuValue(e.target.value, "Table")}
+        >
+          <option value="">Select Table</option>
+          {tableList.map((item, index) => (
+            <option value={item} key={index}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Trigger */}
+      <div className="flex flex-col">
+        <label className="text-sm font-semibold text-orange-600 mb-1">Trigger</label>
+        <select
+          value={trigger}
+          disabled={!viewAfterSelectionDatabase}
+          className="p-2 rounded-lg bg-orange-600 text-white shadow hover:bg-orange-700 transition w-full disabled:opacity-50"
+          onChange={(e) => handleSubMenuValue(e.target.value, "Trigger")}
+        >
+          <option value="">Select Trigger</option>
+          {triggerList.map((item, index) => (
+            <option value={item} key={index}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Type */}
+      <div className="flex flex-col">
+        <label className="text-sm font-semibold text-pink-600 mb-1">Type</label>
+        <select
+          value={type}
+          disabled={!viewAfterSelectionDatabase}
+          className="p-2 rounded-lg bg-pink-600 text-white shadow hover:bg-pink-700 transition w-full disabled:opacity-50"
+          onChange={(e) => handleSubMenuValue(e.target.value, "Type")}
+        >
+          <option value="">Select Type</option>
+          {typeList.map((item, index) => (
+            <option value={item} key={index}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Reset Button */}
+      <motion.div
+        whileTap={{ scale: 0.95 }}
+        transition={{ type: "spring", stiffness: 300 }}
+        className="flex flex-col justify-center p-2 overflow-hidden"
+      >
+        <label className="text-sm font-semibold text-red-600 mb-1 invisible">Reset</label>
+        <button
+          onClick={resetAll}
+          className="px-6 py-2 rounded-xl bg-red-700 text-lg font-semibold text-gray-200 hover:text-white transition w-full"
+        >
+          Reset All
+        </button>
+      </motion.div>
+    </div>
+  );
+};

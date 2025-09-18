@@ -7,6 +7,7 @@ import { HistoryProvider } from "./Context/HistoryContext";
 import About from "./Component/About"
 import { Contact } from "./Component/Contact"
 import Footer from "./Component/Footer"
+import { Dashboard } from "./Page/Dashboard"
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/about" element={<About />}/>
             <Route path="/contact" element={<Contact />} />
+            <Route path="/dashboard" element={<Dashboard />}/>
           </Routes>
           </main>
         <Footer />

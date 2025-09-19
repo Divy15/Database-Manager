@@ -1,22 +1,7 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useDashboard } from "../Context/DashboardDatabaseInfoContext";
 
 export const DashboardSubNavbar = () => {
-  const [viewAfterSelectionDatabase, setViewAfterSelectionDatabase] = useState(false);
-  const [database, setDatabase] = useState("");
-  const [func, setFunc] = useState("");
-  const [table, setTable] = useState("");
-  const [trigger, setTrigger] = useState("");
-  const [type, setType] = useState("");
-
-  const resetAll = () => {
-    setDatabase("");
-    setFunc("");
-    setTable("");
-    setTrigger("");
-    setType("");
-    setViewAfterSelectionDatabase(false);
-  };
+  const { selection, setSelection, resetSelection, viewAfterSelectionDatabase, setViewAfterSelectionDatabase } = useDashboard();
 
   const databaseList = ["SCI_UPDATE_2025", "SCC_UPDATE_2025", "GEN_UPDATE_2025"];
   const functionList = ["FUNCTION_ABC_1", "FUNCTION_CDE_2"];
@@ -24,36 +9,25 @@ export const DashboardSubNavbar = () => {
   const triggerList = ["Trigger_UPDATE_ABC_2", "Trigger_UPDATE_CDE_3"];
   const typeList = ["Type_UPDATE_2025", "Type_Update_2026"];
 
-  const handleViewOfAfterSelectionDatabaseValue = (e: any) => {
-    if (e.target.value) {
-      setDatabase(e.target.value);
-      return setViewAfterSelectionDatabase(true);
+  const handleDatabaseChange = (e: any) => {
+    const value = e.target.value;
+    if (value) {
+      setSelection({ database: value, func: "", table: "", trigger: "", type: "" });
+      setViewAfterSelectionDatabase(true);
+    } else {
+      resetSelection();
+      setViewAfterSelectionDatabase(false);
     }
-    return setViewAfterSelectionDatabase(false);
   };
 
   const handleSubMenuValue = (value: string, subMenuType: string) => {
-    if (subMenuType === "Function") {
-      setFunc(value);
-      setTable("");
-      setTrigger("");
-      setType("");
-    } else if (subMenuType === "Table") {
-      setTable(value);
-      setFunc("");
-      setTrigger("");
-      setType("");
-    } else if (subMenuType === "Trigger") {
-      setTrigger(value);
-      setFunc("");
-      setTable("");
-      setType("");
-    } else {
-      setType(value);
-      setFunc("");
-      setTable("");
-      setTrigger("");
-    }
+    setSelection({
+      database: selection.database,
+      func: subMenuType === "Function" ? value : "",
+      table: subMenuType === "Table" ? value : "",
+      trigger: subMenuType === "Trigger" ? value : "",
+      type: subMenuType === "Type" ? value : "",
+    });
   };
 
   return (
@@ -62,15 +36,13 @@ export const DashboardSubNavbar = () => {
       <div className="flex flex-col">
         <label className="text-sm font-semibold text-blue-600 mb-1">Database</label>
         <select
-          value={database}
+          value={selection.database}
           className="p-2 rounded-lg bg-blue-600 text-white shadow hover:bg-blue-700 transition w-full"
-          onChange={(e) => handleViewOfAfterSelectionDatabaseValue(e)}
+          onChange={handleDatabaseChange}
         >
           <option value="">Select Database</option>
           {databaseList.map((item, index) => (
-            <option value={item} key={index}>
-              {item}
-            </option>
+            <option value={item} key={index}>{item}</option>
           ))}
         </select>
       </div>
@@ -79,16 +51,14 @@ export const DashboardSubNavbar = () => {
       <div className="flex flex-col">
         <label className="text-sm font-semibold text-purple-600 mb-1">Function</label>
         <select
-          value={func}
+          value={selection.func}
           disabled={!viewAfterSelectionDatabase}
           className="p-2 rounded-lg bg-purple-600 text-white shadow hover:bg-purple-700 transition w-full disabled:opacity-50"
           onChange={(e) => handleSubMenuValue(e.target.value, "Function")}
         >
           <option value="">Select Function</option>
           {functionList.map((item, index) => (
-            <option value={item} key={index}>
-              {item}
-            </option>
+            <option value={item} key={index}>{item}</option>
           ))}
         </select>
       </div>
@@ -97,16 +67,14 @@ export const DashboardSubNavbar = () => {
       <div className="flex flex-col">
         <label className="text-sm font-semibold text-green-600 mb-1">Table</label>
         <select
-          value={table}
+          value={selection.table}
           disabled={!viewAfterSelectionDatabase}
           className="p-2 rounded-lg bg-green-600 text-white shadow hover:bg-green-700 transition w-full disabled:opacity-50"
           onChange={(e) => handleSubMenuValue(e.target.value, "Table")}
         >
           <option value="">Select Table</option>
           {tableList.map((item, index) => (
-            <option value={item} key={index}>
-              {item}
-            </option>
+            <option value={item} key={index}>{item}</option>
           ))}
         </select>
       </div>
@@ -115,16 +83,14 @@ export const DashboardSubNavbar = () => {
       <div className="flex flex-col">
         <label className="text-sm font-semibold text-orange-600 mb-1">Trigger</label>
         <select
-          value={trigger}
+          value={selection.trigger}
           disabled={!viewAfterSelectionDatabase}
           className="p-2 rounded-lg bg-orange-600 text-white shadow hover:bg-orange-700 transition w-full disabled:opacity-50"
           onChange={(e) => handleSubMenuValue(e.target.value, "Trigger")}
         >
           <option value="">Select Trigger</option>
           {triggerList.map((item, index) => (
-            <option value={item} key={index}>
-              {item}
-            </option>
+            <option value={item} key={index}>{item}</option>
           ))}
         </select>
       </div>
@@ -133,34 +99,28 @@ export const DashboardSubNavbar = () => {
       <div className="flex flex-col">
         <label className="text-sm font-semibold text-pink-600 mb-1">Type</label>
         <select
-          value={type}
+          value={selection.type}
           disabled={!viewAfterSelectionDatabase}
           className="p-2 rounded-lg bg-pink-600 text-white shadow hover:bg-pink-700 transition w-full disabled:opacity-50"
           onChange={(e) => handleSubMenuValue(e.target.value, "Type")}
         >
           <option value="">Select Type</option>
           {typeList.map((item, index) => (
-            <option value={item} key={index}>
-              {item}
-            </option>
+            <option value={item} key={index}>{item}</option>
           ))}
         </select>
       </div>
 
-      {/* Reset Button */}
-      <motion.div
-        whileTap={{ scale: 0.95 }}
-        transition={{ type: "spring", stiffness: 300 }}
-        className="flex flex-col justify-center p-2 overflow-hidden"
+      {/* Reset */}
+      <div className="flex flex-col">
+        <label className="text-sm font-semibold invisible text-pink-600 mb-1">Type</label>
+      <button
+        className="px-6 py-2 rounded-xl bg-red-700 text-lg font-semibold text-gray-200 hover:text-white transition"
+        onClick={resetSelection}
       >
-        <label className="text-sm font-semibold text-red-600 mb-1 invisible">Reset</label>
-        <button
-          onClick={resetAll}
-          className="px-6 py-2 rounded-xl bg-red-700 text-lg font-semibold text-gray-200 hover:text-white transition w-full"
-        >
-          Reset All
-        </button>
-      </motion.div>
+        Reset All
+      </button>
+      </div>
     </div>
   );
 };

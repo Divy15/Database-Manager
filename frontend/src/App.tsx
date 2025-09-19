@@ -7,7 +7,8 @@ import { HistoryProvider } from "./Context/HistoryContext";
 import About from "./Component/About"
 import { Contact } from "./Component/Contact"
 import Footer from "./Component/Footer"
-import { Dashboard } from "./Page/Dashboard"
+import { DatabaseInfo } from "./Page/DatabaseInfo"
+import { RaiseDBRequestSubNavbar } from "./Component/RaiseDBRequestSubNavbar"
 
 function App() {
 
@@ -23,7 +24,8 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/about" element={<About />}/>
             <Route path="/contact" element={<Contact />} />
-            <Route path="/dashboard" element={<Dashboard />}/>
+            <Route path="/dashboard" element={<DatabaseInfo />}/>
+            <Route path="/raise/request" element={<RaiseDBRequestSubNavbar />}/>
           </Routes>
           </main>
         <Footer />

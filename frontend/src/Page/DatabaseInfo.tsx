@@ -3,7 +3,7 @@ import { DashboardProvider } from "../Context/DashboardDatabaseInfoContext";
 import { DashboardDatabaseInfoContent } from "@/Component/DasboardDatabaseInfoContent";
 
 
-export const Dashboard = () => {
+export const DatabaseInfo = () => {
 
   return (
     <>

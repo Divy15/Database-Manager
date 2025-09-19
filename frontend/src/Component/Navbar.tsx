@@ -8,7 +8,11 @@ export const Navbar = () => {
   const location = useLocation();
   let navbarLogo = logo;
   let navbarName = "Database Evolve Tracker";
-  const userNavbarNavLink = [location.pathname==="/add/commit" ? "Dashboard" : "New commit", "Logout"];
+  const userNavbarNavLink = [
+    location.pathname==="/raise/request" ? "DB Info" : "Raise DB Request", 
+    location.pathname==="/merge/request" ? "DB Info" : "Merge Request", 
+    location.pathname==="/request/history" ? "DB Info" : "Request History",
+    "Logout"];
   const navItems = [
     location.pathname === "/about" ? "Home" : "About Us",
     "Let’s Connect",
@@ -26,7 +30,15 @@ export const Navbar = () => {
       navigate("/");
     } else if (item === "Let’s Connect") {
       navigate("/contact");
-    } else {
+    } else if(item === "Raise DB Request"){
+      navigate("raise/request")
+    } else if(item === "DB Info"){
+      navigate("/dashboard")
+    } else if(item === "Merge Request"){
+      navigate("/merge/request")
+    }else if(item === "Request History"){
+      navigate("/request/history")
+    }else {
       navigate("/login");
     }
   };

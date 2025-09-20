@@ -12,7 +12,8 @@ export const Signup = () => {
    };
    
   return (
-    <div className="h-screen flex items-center justify-center bg-black">
+    <>
+    <div className="h-screen-auto flex items-center justify-center m-3">
       {/* Card */}
       <div className="bg-gray-900/90 backdrop-blur-xl w-[420px] rounded-2xl shadow-2xl p-8 border border-gray-800">
         {/* Title */}
@@ -110,5 +111,6 @@ export const Signup = () => {
         </p>
       </div>
     </div>
+    </>
   );
 };

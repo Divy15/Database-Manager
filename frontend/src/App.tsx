@@ -8,7 +8,8 @@ import About from "./Component/About"
 import { Contact } from "./Component/Contact"
 import Footer from "./Component/Footer"
 import { DatabaseInfo } from "./Page/DatabaseInfo"
-import { RaiseDBRequestSubNavbar } from "./Component/RaiseDBRequestSubNavbar"
+import { RaiseDBRequestSubNavbar } from "./Component/RaiseDBRequest/RaiseDBRequestSubNavbar"
+import { MergeRequest } from "./Page/MergeRequest"
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/dashboard" element={<DatabaseInfo />}/>
             <Route path="/raise/request" element={<RaiseDBRequestSubNavbar />}/>
+            <Route path="/merge/request" element={<MergeRequest />} />
           </Routes>
           </main>
         <Footer />

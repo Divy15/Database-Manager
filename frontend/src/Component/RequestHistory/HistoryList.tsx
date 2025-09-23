@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-export const RequestList = () => {
+export const HistoryList = () => {
 
     const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ export const RequestList = () => {
 
     const handleClickViewCodeDiff = (value:number) => {
         console.log(value);
-        navigate(`/code/diff`);
+        navigate(`/revert/code/diff`);
     };
 
     return (
@@ -27,7 +27,7 @@ export const RequestList = () => {
                 <div className="flex justify-end">
                     <div className="m-2">
                         <select
-                            className="p-3 rounded-lg bg-amber-500 text-white shadow-md hover:bg-gray-700 transition w-60"
+                            className="p-3 rounded-lg bg-amber-500 text-white transition w-60"
                         >
                             <option value="">Filter by Database</option>
                             {databaseList.map((item: any, idx: number) => (

@@ -10,28 +10,40 @@ import Footer from "./Component/Footer"
 import { DatabaseInfo } from "./Page/DatabaseInfo"
 import { RaiseDBRequestSubNavbar } from "./Component/RaiseDBRequest/RaiseDBRequestSubNavbar"
 import { MergeRequest } from "./Page/MergeRequest"
+import CodeDiff from "./Component/MergeRequest/CodeDiff"
+import { HistoryList } from "./Component/RequestHistory/HistoryList"
+import CodeDiffRevert from "./Component/RequestHistory/CodeDiffRevert"
 
 function App() {
+
 
   return (
     <>
       <BrowserRouter>
-        <HistoryProvider>
+       <HistoryProvider>
+        {/* Full-height flex container */}
+        <div className="flex flex-col min-h-screen">
           <Navbar />
-           <main className="pt-[80px]">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/about" element={<About />}/>
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/dashboard" element={<DatabaseInfo />}/>
-            <Route path="/raise/request" element={<RaiseDBRequestSubNavbar />}/>
-            <Route path="/merge/request" element={<MergeRequest />} />
-          </Routes>
+          {/* main content grows to fill space */}
+          <main className="flex-grow pt-[80px]">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/dashboard" element={<DatabaseInfo />} />
+              <Route path="/raise/request" element={<RaiseDBRequestSubNavbar />} />
+              <Route path="/merge/request" element={<MergeRequest />} />
+              <Route path="/code/diff" element={<CodeDiff/>} />
+              <Route path="/request/history" element={<HistoryList />}/>
+              <Route path="/revert/code/diff" element={<CodeDiffRevert />}/>
+            </Routes>
           </main>
-        <Footer />
-        </HistoryProvider>
+          {/* Footer will now stick to the bottom if content is short */}
+          <Footer />
+        </div>
+      </HistoryProvider>
       </BrowserRouter>
     </>
   )

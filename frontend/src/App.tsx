@@ -13,6 +13,7 @@ import { MergeRequest } from "./Page/MergeRequest"
 import CodeDiff from "./Component/MergeRequest/CodeDiff"
 import { HistoryList } from "./Component/RequestHistory/HistoryList"
 import CodeDiffRevert from "./Component/RequestHistory/CodeDiffRevert"
+// import { SearchBox } from "./UI/SearchBox"
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
               <Route path="/code/diff" element={<CodeDiff/>} />
               <Route path="/request/history" element={<HistoryList />}/>
               <Route path="/revert/code/diff" element={<CodeDiffRevert />}/>
+              {/* <Route path="/ui" element={<SearchBox />}/> */}
             </Routes>
           </main>
           {/* Footer will now stick to the bottom if content is short */}

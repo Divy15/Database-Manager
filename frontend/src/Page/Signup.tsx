@@ -5,6 +5,7 @@ import { SearchBox } from "@/UI/SearchBox";
 import { signupFormConstant } from "@/Constant/SignupForm";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { SignupStoreUserData } from "@/Action/SignupStoreUserData";
 
 export const Signup = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export const Signup = () => {
       password: "",
       phone: "",
       organization: "",
-      country_code: "", // ✅ include country
+      country_code: "", 
     },
     validationSchema: Yup.object({
       name: Yup.string().min(1).required("User name is required."),
@@ -28,10 +29,12 @@ export const Signup = () => {
         .max(10, "Must be 10 digits")
         .required("Phone number is required."),
       organization: Yup.string().min(1).required("Organization name is required."),
-      country_code: Yup.string().required("Country is required"), // ✅ validate
+      country_code: Yup.string().required("Country is required"), 
     }),
     onSubmit: async (values) => {
-      console.log("Form submitted:", values);
+      const result = await SignupStoreUserData(values);
+
+      if(result.success) navigate('/login');
     },
   });
 

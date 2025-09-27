@@ -4,5 +4,9 @@ export const ApiConstants = {
     signup : {
         country_list : `${APIURL}/country/list`,
         store_data : `${APIURL}/signup/`
+    },
+
+    login : {
+        authenticateUser : `${APIURL}/login/`
     }
 }

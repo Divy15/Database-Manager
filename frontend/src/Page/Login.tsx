@@ -1,5 +1,9 @@
+import { LoginForm } from "@/Constant/LoginForm";
 import { useHistoryNav } from "../Context/HistoryContext";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { LoginAuthenticateUserData } from "@/Action/LoginAuthenticateUserData";
 
 export const Login = () => {
 
@@ -11,6 +15,26 @@ export const Login = () => {
     navigate('/signup');
    }
 
+  const formik = useFormik({
+
+    initialValues : {
+      email : "",
+      password : ""
+    },
+
+    validationSchema : Yup.object({
+      email: Yup.string().email().required("Email is required."),
+      password: Yup.string().min(8).required("Password is required"),
+    }),
+
+    onSubmit : async (values) => {
+      console.log(values);
+      const result = await LoginAuthenticateUserData(values);
+
+      if(result.success) navigate('/dashboard');
+    }
+  })
+
   return (
     <div className="h-screen flex justify-center items-center bg-black">
       {/* Card */}
@@ -20,30 +44,29 @@ export const Login = () => {
           Welcome Back 👋
         </h2>
 
-        <form className="space-y-5">
-          {/* Email */}
-          <div>
-            <label className="block text-gray-300 mb-1 font-medium">
-              Email
-            </label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full p-3 bg-gray-800 text-gray-200 border border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 transition"
-            />
-          </div>
-
-          {/* Password */}
-          <div>
-            <label className="block text-gray-300 mb-1 font-medium">
-              Password
-            </label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              className="w-full p-3 bg-gray-800 text-gray-200 border border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 transition"
-            />
-          </div>
+        <form className="space-y-5" 
+        onSubmit={formik.handleSubmit}>
+            {
+              LoginForm.map((item,index) => (
+                <div key={index}>
+                  <label className="block text-gray-300 mb-1 font-medium">
+                    {item.label}
+                  </label>
+                  <input type={item.type}
+                  placeholder={item.placeholder}
+                  name={item.name}
+                  value={formik.values[item.name]}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  className="w-full p-3 bg-gray-800 text-gray-200 border border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 transition" />
+                  {formik.touched[item.name] && formik.errors[item.name] && (
+                <p className="text-red-500 text-sm mt-1">
+                  {formik.errors[item.name]}
+                </p>
+              )}
+                </div>
+              ))
+            }
 
           {/* Buttons */}
           <div className="flex justify-between items-center">

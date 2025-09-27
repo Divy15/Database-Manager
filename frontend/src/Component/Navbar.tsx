@@ -12,6 +12,7 @@ export const Navbar = () => {
     location.pathname==="/raise/request" ? "DB Info" : "Raise DB Request", 
     location.pathname==="/merge/request" ? "DB Info" : "Merge Request", 
     location.pathname==="/request/history" ? "DB Info" : "Request History",
+    location.pathname==="/database/registery" ? "DB Info" : "Database Registry",
     "Logout"];
   const navItems = [
     location.pathname === "/about" ? "Home" : "About Us",
@@ -38,6 +39,8 @@ export const Navbar = () => {
       navigate("/merge/request")
     }else if(item === "Request History"){
       navigate("/request/history")
+    }else if(item === 'Database Registry'){
+      navigate("/database/registery")
     }else {
       navigate("/login");
     }

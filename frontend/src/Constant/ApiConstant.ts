@@ -1,4 +1,4 @@
-const APIURL = 'http://192.168.0.58:3000/api';
+const APIURL = 'http://192.168.0.46:3000/api';
 
 export const ApiConstants = {
     signup : {

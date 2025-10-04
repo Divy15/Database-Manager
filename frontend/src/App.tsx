@@ -14,6 +14,7 @@ import CodeDiff from "./Component/MergeRequest/CodeDiff"
 import { HistoryList } from "./Component/RequestHistory/HistoryList"
 import CodeDiffRevert from "./Component/RequestHistory/CodeDiffRevert"
 import { DatabaseRegistry } from "./Page/DatabaseRegistry"
+import { FormViewProvider } from "./Component/DBRegister/FormViewContext"
 // import { SearchBox } from "./UI/SearchBox"
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
     <>
       <BrowserRouter>
        <HistoryProvider>
+        <FormViewProvider>
         {/* Full-height flex container */}
         <div className="flex flex-col min-h-screen">
           <Navbar />
@@ -47,6 +49,7 @@ function App() {
           {/* Footer will now stick to the bottom if content is short */}
           <Footer />
         </div>
+        </FormViewProvider>
       </HistoryProvider>
       </BrowserRouter>
     </>

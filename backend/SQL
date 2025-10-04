@@ -1,0 +1,168 @@
+
+---------------- Table List --------------------
+
+1. 
+CREATE TABLE IF NOT EXISTS public.country_master
+(
+    id serial primary key,
+    country_code character varying() ,
+    country_name character varying(),
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP
+)
+
+2.
+create table project_database_master(
+id serial primary key,
+project_id integer,
+db_id integer,
+created_by timestamp default current_timestamp
+)
+
+3.
+create table database_master(
+id serial primary key,
+db_host character varying,
+db_password character varying,
+db_user character varying,
+db_name character varying,
+created_by integer,
+db_level character varying,
+created_at timestamp default current_timestamp
+)
+
+4.
+CREATE TABLE IF NOT EXISTS public.org_user_master
+(
+    id serial primary key,
+    username character varying ,
+    email character varying ,
+    password character varying ,
+    phone character varying ,
+    org_id integer,
+    country_id character varying ,
+    role_id integer,
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP
+) 
+
+5.
+CREATE TABLE IF NOT EXISTS public.organization_master
+(
+    id serial primary key,
+    org_name character varying ,
+    created_at timestamp  DEFAULT CURRENT_TIMESTAMP
+)
+
+6.
+CREATE TABLE IF NOT EXISTS public.project_master
+(
+    id serial primary key,
+    project_name character varying ,
+    created_by character varying ,
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP
+)
+
+7.
+
+
+-------------------------- Function list --------------------------
+
+1.
+-- FUNCTION: public.country_list_with_filteration(character varying)
+
+-- DROP FUNCTION IF EXISTS public.country_list_with_filteration(character varying);
+
+CREATE OR REPLACE FUNCTION public.country_list_with_filteration(
+	in_country_name character varying)
+    RETURNS TABLE(country_code character varying, country_name character varying) 
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+    ROWS 1000
+
+AS $BODY$
+DECLARE 
+    sql text;
+BEGIN
+   sql := 
+        'WITH city_list AS (
+            SELECT country_code, country_name
+            FROM country_master
+        )
+        SELECT cl.country_code,
+               cl.country_name
+        FROM city_list cl
+        WHERE 1= 1';
+
+		IF in_country_name IS NOT NULL THEN
+		sql := sql || ' AND cl.country_name ILIKE ' || quote_literal(in_country_name || '%');
+		END IF;
+		
+        sql := sql || 'GROUP BY cl.country_code, cl.country_name';
+
+		RETURN QUERY EXECUTE sql;
+END;
+$BODY$;
+
+ALTER FUNCTION public.country_list_with_filteration(character varying)
+    OWNER TO postgres;
+
+
+2.
+-- FUNCTION: public.user_login_get_user_data(character varying)
+
+-- DROP FUNCTION IF EXISTS public.user_login_get_user_data(character varying);
+
+CREATE OR REPLACE FUNCTION public.user_login_get_user_data(
+	in_email character varying)
+    RETURNS TABLE(password character varying, username character varying, userid integer, useremail character varying) 
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE SECURITY DEFINER PARALLEL UNSAFE
+    ROWS 1000
+
+AS $BODY$
+BEGIN
+
+   RETURN QUERY
+   SELECT org.password, org.username, org.id as userid, org.email as useremail FROM org_user_master org
+   WHERE org.email = in_email;
+
+END;
+$BODY$;
+
+ALTER FUNCTION public.user_login_get_user_data(character varying)
+    OWNER TO postgres;
+
+3.
+-- FUNCTION: public.user_signup_page_store_signup_data(character varying, character varying, character varying, character varying, character varying, character varying)
+
+-- DROP FUNCTION IF EXISTS public.user_signup_page_store_signup_data(character varying, character varying, character varying, character varying, character varying, character varying);
+
+CREATE OR REPLACE FUNCTION public.user_signup_page_store_signup_data(
+	in_username character varying,
+	in_email character varying,
+	in_password character varying,
+	in_phone character varying,
+	in_org_name character varying,
+	in_country_id character varying)
+    RETURNS void
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE SECURITY DEFINER PARALLEL UNSAFE
+AS $BODY$
+DECLARE 
+   org_id integer;
+BEGIN
+
+  -- First organization name enter in the organization master table
+  INSERT INTO organization_master(org_name) VALUES (in_org_name) RETURNING id INTO org_id;
+
+  -- Second store user detail org_employee_master table
+  INSERT INTO org_user_master(username, email, password, phone, org_id, country_id, role_id)
+  VALUES (in_username, in_email, in_password, in_phone, org_id , in_country_id, 1);
+
+END;
+$BODY$;
+
+ALTER FUNCTION public.user_signup_page_store_signup_data(character varying, character varying, character varying, character varying, character varying, character varying)
+    OWNER TO postgres;
